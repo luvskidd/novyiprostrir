@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Архітектурне бюро «Новий простір» у Львові: проєктування будинків, дизайн інтер'єру, авторський нагляд і ревіталізація (ЛР №7).">
+    <title>Новий простір — архітектурне бюро у Львові (ЛР №7)</title>
+
+    <!-- Google Fonts (Inter, Playfair Display, Raleway) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Raleway:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Іконки (v6.6.0) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        accent: '#B8502B',
+                        'accent-hover': '#9A3E20',
+                        'dark-bg': '#161616',
+                        'dark-card': '#222222',
+                        'light-muted': '#A0A0A0',
+                        'main-bg': '#F5F5F5',
+                        'main-text': '#111111'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        heading: ['Raleway', 'sans-serif'],
+                        hero: ['Playfair Display', 'Georgia', 'serif']
+                    },
+                    maxWidth: {
+                        'container': '1400px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-main-bg text-main-text font-sans antialiased leading-relaxed overflow-x-hidden">
+
+    <!-- 1. ШАПКА САЙТУ (HEADER) -->
+    <header class="fixed top-[10px] xl:top-[20px] left-0 right-0 z-50 px-4 xl:px-[32px]">
+        <div class="max-w-container mx-auto h-[64px] xl:h-[84px] px-[20px] xl:px-[32px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-between relative">
+            
+            <!-- Логотип -->
+            <a class="flex items-center mr-0 xl:mr-[20px] 2xl:mr-[28px]" href="#hero" aria-label="Новий простір — на початок сторінки">
+                <img src="assets/logos/logo.svg" alt="Логотип Новий простір" class="h-[72px] xl:h-[100px] w-auto block object-contain transition-transform duration-200 hover:scale-[1.02]" onerror="this.onerror=null; this.src='assets/images/logo.png';">
+            </a>
+
+            <!-- Гамбургер-перемикач для мобільних та планшетів (<1280px) -->
+            <input type="checkbox" id="menu-toggle" class="peer hidden" aria-label="Перемикач мобільного меню">
+            <label for="menu-toggle" class="xl:hidden cursor-pointer z-[1002] p-2 flex flex-col justify-center items-center gap-1.5">
+                <span class="w-6 h-0.5 bg-main-text transition-all duration-300 peer-checked:rotate-45 peer-checked:translate-y-2"></span>
+                <span class="w-6 h-0.5 bg-main-text transition-all duration-300 peer-checked:opacity-0"></span>
+                <span class="w-6 h-0.5 bg-main-text transition-all duration-300 peer-checked:-rotate-45 peer-checked:-translate-y-2"></span>
+            </label>
+
+            <!-- Навігація -->
+            <nav class="hidden peer-checked:flex xl:flex absolute xl:relative top-[72px] xl:top-0 right-0 left-0 xl:left-auto w-full xl:w-auto bg-white xl:bg-transparent shadow-xl xl:shadow-none p-6 xl:p-0 rounded-xl flex-col xl:flex-row items-start xl:items-center z-[1001] xl:mx-auto" aria-label="Головна навігація">
+                <ul class="flex flex-col xl:flex-row gap-4 xl:gap-[36px] 2xl:gap-[48px] items-start xl:items-center w-full list-none m-0 p-0">
+                    <li><a href="#services" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Послуги</a></li>
+                    <li><a href="#before-after" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">До / Після</a></li>
+                    <li><a href="#video-tour" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Відео-тур</a></li>
+                    <li><a href="#team" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Команда</a></li>
+                    <li><a href="#partners" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Матеріали</a></li>
+                    <li><a href="#calculator" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Калькулятор</a></li>
+                    <li><a href="#contacts" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Контакти</a></li>
+                </ul>
+                <div class="flex xl:hidden flex-col w-full gap-3 pt-4 border-t border-gray-200">
+                    <button class="w-full h-[44px] flex items-center justify-center gap-2 border border-gray-200 rounded-md bg-gray-100 text-main-text font-semibold text-sm hover:border-accent hover:text-accent transition-all duration-200" type="button" aria-label="Змінити тему">
+                        <i class="fas fa-moon text-accent"></i>
+                        <span>Темна тема</span>
+                    </button>
+                    <a class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-[13.5px] py-2.5 px-5 rounded-md text-center transition-all duration-200 shadow-sm" href="#consultation">Замовити дзвінок</a>
+                </div>
+            </nav>
+
+            <!-- Дії шапки -->
+            <div class="hidden xl:flex items-center gap-[16px]">
+                <button class="h-[42px] px-4 rounded-lg border border-gray-200 bg-gray-50/80 hover:bg-accent/10 hover:border-accent hover:text-accent text-main-text font-semibold text-[14px] flex items-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer" type="button" aria-label="Змінити тему" title="Змінити тему">
+                    <i class="fas fa-moon text-accent text-xs"></i>
+                    <span>Тема</span>
+                </button>
+                <a class="bg-accent hover:bg-accent-hover hover:scale-[1.02] active:scale-95 text-white font-bold text-[13.5px] py-[10px] px-[22px] rounded-md transition-all duration-200 shadow-sm whitespace-nowrap cursor-pointer" href="#consultation">Замовити дзвінок</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="relative w-full min-h-[100dvh] pt-[100px] pb-[20px] md:pt-[140px] md:pb-[60px] bg-[url('assets/images/hero.jpg')] bg-center bg-cover bg-no-repeat flex items-end" id="hero" aria-labelledby="hero-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px] w-full">
+                <div class="max-w-[700px] mb-0 md:mb-5 text-left w-full">
+                    <h1 class="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] font-bold text-white tracking-tight leading-tight mb-3 md:mb-4 max-md:whitespace-normal md:whitespace-nowrap" id="hero-title">НОВИЙ ПРОСТІР</h1>
+                    <p class="font-sans text-sm sm:text-base md:text-lg text-white font-medium leading-relaxed mb-5 md:mb-7">Архітектура, що поєднує естетику,<br class="hidden sm:inline">функціональність та ваш стиль життя.</p>
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-4 items-center w-full">
+                        <a class="w-full sm:w-auto bg-accent hover:bg-accent-hover hover:scale-[1.02] active:scale-95 text-white font-bold text-xs md:text-sm tracking-wider py-3.5 px-7 rounded-md transition-all duration-200 text-center shadow-md cursor-pointer" href="#consultation">ОБГОВОРИТИ ПРОЄКТ</a>
+                        <a class="w-full sm:w-auto bg-transparent border border-white/85 hover:bg-white hover:text-main-text hover:scale-[1.02] active:scale-95 text-white font-bold text-xs md:text-sm tracking-wider py-3.5 px-7 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer" href="#calculator">РОЗРАХУВАТИ ВАРТІСТЬ</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ПОСЛУГИ -->
+        <section class="py-16 md:py-20" id="services" aria-labelledby="services-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px]">
+                <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Послуги</span>
+                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="services-title">Види робіт, які ми виконуємо</h2>
+                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-10">Від першого ескізу до нагляду на майданчику: кожен напрям можна замовити окремо або як комплексний супровід.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <article class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 flex flex-col">
+                        <div class="w-12 h-12 flex items-center justify-center mb-2">
+                            <img src="assets/icons/service-1.svg" alt="Іконка архітектурного проєктування" loading="lazy" class="w-9 h-9 object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-drafting-compass text-2xl text-accent\'></i>';">
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2">Архітектурне проєктування</h3>
+                        <p class="text-sm text-gray-600 mb-4">Комплексна розробка житлових та громадських просторів від ескізного концепту до робочої документації.</p>
+                        <ul class="list-none space-y-1.5 mb-4 text-xs md:text-sm">
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Ескізний проєкт та 3D-візуалізація</li>
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Повний комплект робочих креслень</li>
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Погодження та відповідність ДБН</li>
+                        </ul>
+                        <p class="text-xs md:text-sm font-semibold text-accent mt-auto mb-4">від 35 $/м² • від 30 днів</p>
+                        <a href="#consultation" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer">ДІЗНАТИСЯ ДЕТАЛІ</a>
+                    </article>
+
+                    <article class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 flex flex-col">
+                        <div class="w-12 h-12 flex items-center justify-center mb-2">
+                            <img src="assets/icons/service-2.svg" alt="Іконка дизайну інтер'єру" loading="lazy" class="w-9 h-9 object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-couch text-2xl text-accent\'></i>';">
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2">Дизайн інтер'єру</h3>
+                        <p class="text-sm text-gray-600 mb-4">Планувальні рішення, концептуальні 3D-візуалізації, підбір меблів, освітлення та матеріалів під ключ.</p>
+                        <ul class="list-none space-y-1.5 mb-4 text-xs md:text-sm">
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Планувальні рішення (3-4 варіанти)</li>
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Концептуальні 3D-візуалізації</li>
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Підбір меблів, світла та матеріалів</li>
+                        </ul>
+                        <p class="text-xs md:text-sm font-semibold text-accent mt-auto mb-4">від 25 $/м² • від 20 днів</p>
+                        <a href="#consultation" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer">ОБРАТИ ТАРИФ</a>
+                    </article>
+
+                    <article class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 flex flex-col">
+                        <div class="w-12 h-12 flex items-center justify-center mb-2">
+                            <img src="assets/icons/service-3.svg" alt="Іконка авторського нагляду" loading="lazy" class="w-9 h-9 object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-user-shield text-2xl text-accent\'></i>';">
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2">Авторський нагляд</h3>
+                        <p class="text-sm text-gray-600 mb-4">Регулярний контроль будівництва на майданчику, перевірка відповідності кресленням і консультування майстрів.</p>
+                        <ul class="list-none space-y-1.5 mb-4 text-xs md:text-sm">
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Регулярні виїзди на об'єкт</li>
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Контроль відповідності кресленням</li>
+                            <li class="pl-4 relative before:content-['•'] before:text-accent before:absolute before:left-0">Консультації будівельних бригад</li>
+                        </ul>
+                        <p class="text-xs md:text-sm font-semibold text-accent mt-auto mb-4">від 15 $/м² • щотижня</p>
+                        <a href="#consultation" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer">ЗАМОВИТИ КОНЦЕПТ</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ДО / ПІСЛЯ -->
+        <section class="py-16 md:py-20" id="before-after" aria-labelledby="before-after-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px]">
+                <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">До / Після</span>
+                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="before-after-title">Трансформація в дії: подивіться, як оживають занедбані простори</h2>
+                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-6">Один і той самий простір до і після роботи бюро: демонтаж, нові конструкції, матеріали та світло.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="relative rounded-xl overflow-hidden h-[320px] md:h-[480px] shadow-sm group border border-transparent hover:border-accent transition-all duration-200">
+                        <img src="assets/images/before.jpg" alt="Приміщення до ремонту" loading="lazy" class="w-full h-full object-cover block transition-transform duration-300 group-hover:scale-[1.02]" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80';">
+                        <span class="absolute bottom-5 left-5 bg-black/75 text-white text-xs font-bold px-4 py-2 rounded-md tracking-wider">ДО РЕМОНТУ</span>
+                    </div>
+                    <div class="relative rounded-xl overflow-hidden h-[320px] md:h-[480px] shadow-sm group border border-transparent hover:border-accent transition-all duration-200">
+                        <img src="assets/images/after.jpg" alt="Реалізований проєкт" loading="lazy" class="w-full h-full object-cover block transition-transform duration-300 group-hover:scale-[1.02]" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80';">
+                        <span class="absolute bottom-5 left-5 bg-accent text-white text-xs font-bold px-4 py-2 rounded-md tracking-wider">ПІСЛЯ РЕВІТАЛІЗАЦІЇ</span>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <a href="#consultation" class="inline-block w-full sm:w-auto bg-accent hover:bg-accent-hover hover:scale-[1.02] active:scale-95 text-white font-bold text-xs md:text-sm py-3.5 px-8 rounded-md transition-all duration-200 shadow-md cursor-pointer">ХОЧУ ПОДІБНИЙ ПРОЄКТ</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ВІДЕО-ТУР (YOUTUBE IFRAME) -->
+        <section class="py-16 md:py-20 bg-main-bg" id="video-tour" aria-labelledby="video-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px]">
+                <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Відео-огляд</span>
+                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-3 text-main-text" id="video-title">Відео-тур реалізованим об'єктом</h2>
+                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-8">Запрошуємо на віртуальний огляд один із наших реалізованих інтер'єрів: оцініть деталі розкладання матеріалів, освітлення та світлові сценарії у динаміці.</p>
+                
+                <div class="w-full aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-lg border-2 border-accent/40 hover:border-accent hover:-translate-y-0.5 transition-all duration-200 bg-black">
+                    <iframe class="w-full h-full border-0" 
+                            src="https://www.youtube.com/embed/Sry658wx4y4" 
+                            title="Full House Renovation: Old Stone House to Cozy Modern Home (Before & After)" 
+                            loading="lazy" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. КОМАНДА -->
+        <section class="py-16 md:py-20" id="team" aria-labelledby="team-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px]">
+                <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Команда</span>
+                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="team-title">Наші фахівці</h2>
+                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-10">З вами працюють сертифіковані експерти з досвідом понад 10 років.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md border border-transparent hover:border-accent transition-all duration-200 flex flex-col group">
+                        <div class="w-full h-[310px] overflow-hidden bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80" alt="Портрет Олександра Коваля" loading="lazy" class="w-full h-full object-cover object-[center_10%] transition-transform duration-300 group-hover:scale-[1.02]">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-heading text-xl font-bold mb-0.5 text-main-text">Олександр Коваль</h3>
+                            <p class="text-xs md:text-sm text-accent font-medium mb-3">Головний архітектор (ГАП)</p>
+                            <span class="inline-block self-start text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full mb-3">10+ років досвіду</span>
+                            <p class="text-xs md:text-sm text-gray-600 mb-4">Спеціалізується на комплексному проєктуванні приватних резиденцій та сучасної комерційної нерухомості.</p>
+                            <a href="#consultation" class="mt-auto w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer">Задати питання фахівцю</a>
+                        </div>
+                    </article>
+
+                    <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md border border-transparent hover:border-accent transition-all duration-200 flex flex-col group">
+                        <div class="w-full h-[310px] overflow-hidden bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Портрет Олени Даниленко" loading="lazy" class="w-full h-full object-cover object-[center_10%] transition-transform duration-300 group-hover:scale-[1.02]">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-heading text-xl font-bold mb-0.5 text-main-text">Олена Даниленко</h3>
+                            <p class="text-xs md:text-sm text-accent font-medium mb-3">Провідна дизайнерка інтер'єру</p>
+                            <span class="inline-block self-start text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full mb-3">35+ проєктів</span>
+                            <p class="text-xs md:text-sm text-gray-600 mb-4">Створює ергономічні та естетичні інтер'єри в стилях мінімалізм, джапанді та сучасному модерні.</p>
+                            <a href="#consultation" class="mt-auto w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer">Замовити дизайн</a>
+                        </div>
+                    </article>
+
+                    <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md border border-transparent hover:border-accent transition-all duration-200 flex flex-col group">
+                        <div class="w-full h-[310px] overflow-hidden bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80" alt="Портрет Ігоря Мельника" loading="lazy" class="w-full h-full object-cover object-[center_10%] transition-transform duration-300 group-hover:scale-[1.02]">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-heading text-xl font-bold mb-0.5 text-main-text">Ігор Мельник</h3>
+                            <p class="text-xs md:text-sm text-accent font-medium mb-3">Інженер-конструктор та реставратор</p>
+                            <span class="inline-block self-start text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full mb-3">Сертифікат НСАУ</span>
+                            <p class="text-xs md:text-sm text-gray-600 mb-4">Експерт з реставрації історичних фасадів та розрахунку складних несучих залізобетонних конструкцій.</p>
+                            <a href="#consultation" class="mt-auto w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer">Познайомитися з архітектором</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. МАТЕРІАЛИ ТА ПАРТНЕРИ -->
+        <section class="py-16 md:py-20" id="partners" aria-labelledby="partners-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px]">
+                <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Матеріали та партнери</span>
+                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="partners-title">Якість матеріалів та надійні бренди</h2>
+                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-10">Співпрацюємо з провідними європейськими виробниками преміального оздоблення та конструкцій.</p>
+
+                <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12 list-none">
+                    <li>
+                        <a href="https://www.knauf.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Knauf" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/knauf.svg" alt="Логотип Knauf" loading="lazy" class="max-w-full max-h-full scale-125 object-contain transition-transform duration-200 group-hover:scale-130">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.caparol.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Caparol" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/caparol.svg" alt="Логотип CAPAROL" loading="lazy" class="max-w-full max-h-full scale-135 object-contain transition-transform duration-200 group-hover:scale-140">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.reynaers.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Reynaers" class="bg-[#004B93] rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/reynaers.svg" alt="Логотип Reynaers" loading="lazy" class="max-w-full max-h-full brightness-0 invert scale-110 object-contain transition-transform duration-200 group-hover:scale-115">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.velux.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт VELUX" class="bg-[#fe001e] rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/velux.svg" alt="Логотип VELUX" loading="lazy" class="max-w-full max-h-full scale-105 object-contain transition-transform duration-200 group-hover:scale-110">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.wienerberger.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Porotherm" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/porotherm.svg" alt="Логотип Porotherm" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.jung.de/en/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт JUNG" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/jung.svg" alt="Логотип JUNG" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.grohe.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт GROHE" class="bg-[#152849] rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/grohe.svg" alt="Логотип GROHE" loading="lazy" class="max-w-full max-h-full scale-145 object-contain transition-transform duration-200 group-hover:scale-150">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.duravit.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт DURAVIT" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/duravit.svg" alt="Логотип DURAVIT" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.egger.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт EGGER" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/egger.svg" alt="Логотип EGGER" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.holcim.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт LAFARGE" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                            <img src="assets/logos/lafarge.svg" alt="Логотип LAFARGE" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-check-circle text-accent text-xl mt-0.5"></i>
+                        <div>
+                            <strong class="block text-sm md:text-base font-bold text-main-text">Сертифікована якість</strong>
+                            <p class="text-xs md:text-sm text-gray-600">Прямі поставки від виробників.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-leaf text-accent text-xl mt-0.5"></i>
+                        <div>
+                            <strong class="block text-sm md:text-base font-bold text-main-text">Екологічність</strong>
+                            <p class="text-xs md:text-sm text-gray-600">Сертифікація матеріалів за стандартом LEED.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-shield-alt text-accent text-xl mt-0.5"></i>
+                        <div>
+                            <strong class="block text-sm md:text-base font-bold text-main-text">Гарантія 10 років</strong>
+                            <p class="text-xs md:text-sm text-gray-600">Офіційні зобов'язання на всі роботи.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. КАЛЬКУЛЯТОР ТА ІНФОРМЕР ВАЛЮТ НБУ -->
+        <section class="py-16 md:py-20" id="calculator" aria-labelledby="calculator-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px] grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                <div>
+                    <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Попередній розрахунок</span>
+                    <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="calculator-title">Розрахунок вартості проєкту</h2>
+                    <p class="text-gray-600 text-sm md:text-base mb-6">Заповніть параметри об'єкта для отримання попереднього кошторису та консультації.</p>
+                    
+                    <!-- ІНФОРМЕР ВАЛЮТ -->
+                    <aside class="bg-white p-5 rounded-xl shadow-sm hover:shadow-md border border-accent/40 hover:border-accent transition-all duration-200 text-left" aria-label="Інформер фінансових курсів">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block mb-2 flex items-center gap-1.5">
+                            <i class="fas fa-chart-line text-accent"></i> 
+                            Фінансовий інформер для кошторису (USD / UAH)
+                        </span>
+                        <p class="text-xs text-gray-600 mb-3">Автоматичний моніторинг офіційного курсу валют НБУ для точного розрахунку імпортних матеріалів:</p>
+                        <div class="w-full h-[85px] rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                            <iframe class="w-full h-full border-0" 
+                                    title="Курс валют НБУ (USD/UAH)" 
+                                    loading="lazy" 
+                                    srcdoc="<!DOCTYPE html><html lang='uk'><head><meta charset='UTF-8'><style>body{margin:0;padding:14px 18px;font-family:system-ui,-apple-system,sans-serif;background:#FAFAFA;color:#111;display:flex;align-items:center;justify-content:space-between;height:100%;box-sizing:border-box;}.info{display:flex;flex-direction:column;gap:2px;}.title{font-size:11px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:0.5px;}.pair{font-size:15px;font-weight:700;color:#111;}.rate{font-size:24px;font-weight:800;color:#B8502B;}.date{font-size:10px;color:#888;text-align:right;}</style></head><body><div class='info'><span class='title'>Офіційний курс НБУ</span><span class='pair'>1 USD → UAH</span></div><div><div class='rate' id='r'>41.50 ₴</div><div class='date' id='d'>Оновлено</div></div><script>fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json').then(r=>r.json()).then(data=>{if(data&&data[0]){document.getElementById('r').innerText=data[0].rate.toFixed(2)+' ₴';document.getElementById('d').innerText=data[0].exchangedate;}}).catch(()=>{});</script></body></html>">
+                            </iframe>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 hover:border-accent/40 transition-all duration-200">
+                    <form class="space-y-4">
+                        <div class="flex flex-col gap-2">
+                            <label for="area" class="text-sm font-medium">Площа приміщення, м² *</label>
+                            <input id="area" name="area" type="number" value="120" placeholder="Наприклад, 180" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-accent transition-colors">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="service" class="text-sm font-medium">Напрямок *</label>
+                            <select id="service" name="service" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-accent transition-colors bg-white cursor-pointer">
+                                <option value="" disabled hidden>Оберіть напрямок</option>
+                                <option value="flat" selected>Квартира</option>
+                                <option value="house">Приватний будинок</option>
+                                <option value="commercial">Комерційний простір</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="tariff" class="text-sm font-medium">Тариф *</label>
+                            <select id="tariff" name="tariff" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-accent transition-colors bg-white cursor-pointer">
+                                <option value="" disabled hidden>Оберіть тариф</option>
+                                <option value="basic">Basic — $25/м²</option>
+                                <option value="standard" selected>Standard — $35/м²</option>
+                                <option value="premium">Premium — $50/м²</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2.5 py-1">
+                            <input id="supervision" name="supervision" type="checkbox" checked class="w-4 h-4 accent-accent cursor-pointer">
+                            <label for="supervision" class="text-sm cursor-pointer select-none">Включити авторський нагляд (+20%)</label>
+                        </div>
+                        <button class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3.5 rounded-md transition-all duration-200 uppercase tracking-wider cursor-pointer shadow-md" type="button">Розрахувати вартість</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. БЕЗКОШТОВНА КОНСУЛЬТАЦІЯ ТА ЛОКАЦІЯ (ОФІЦІЙНИЙ СУПУТНИКОВИЙ EMBED С ОДРАЗУ ВІДМАЛЬОВАНИМИ КОНТРОЛЯМИ) -->
+        <section class="bg-dark-bg text-white py-16 md:py-20" id="consultation" aria-labelledby="consultation-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px] grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div>
+                    <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Наступний крок</span>
+                    <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-white" id="consultation-title">Безкоштовна консультація архітектора</h2>
+                    <p class="text-light-muted text-sm md:text-base mb-6">Залиште контакти — архітектор зателефонує у зручний для вас час або завітайте до нашого офісу у Львові.</p>
+                    
+                    <div class="mt-6">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-light-muted block mb-2 flex items-center gap-1.5">
+                            <i class="fas fa-map-marker-alt text-accent"></i>
+                            Розташування офісу: м. Львів, вул. Архітекторів, 12
+                        </span>
+                        <div class="w-full h-[280px] sm:h-[340px] rounded-xl overflow-hidden shadow-md hover:shadow-lg border border-accent/50 hover:border-accent transition-all duration-200">
+                            <!-- Google Maps Embed API з фіксованими контролями та супутниковим шаром (!1m1e3) -->
+                            <iframe class="w-full h-full border-0" 
+                                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2573.08!2d24.028!3d49.839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!1m1e3!3m2!1suk!2sua" 
+                                    title="Карта розташування офісу Новий простір у Львові (Супутник)" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <form action="#" class="space-y-4 bg-dark-card/60 p-6 rounded-xl border border-[#333333] hover:border-accent/50 transition-all duration-200">
+                        <div class="flex flex-col gap-2">
+                            <label for="name" class="text-sm font-medium text-white">Ім'я *</label>
+                            <input id="name" name="name" type="text" placeholder="Ваше ім'я" autocomplete="name" required class="w-full p-3 border border-[#333333] rounded-md text-sm bg-dark-bg text-white focus:outline-none focus:border-accent transition-colors">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="phone" class="text-sm font-medium text-white">Телефон *</label>
+                            <input id="phone" name="phone" type="tel" placeholder="+380 __ ___ __ __" autocomplete="tel" required class="w-full p-3 border border-[#333333] rounded-md text-sm bg-dark-bg text-white focus:outline-none focus:border-accent transition-colors">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="call-time" class="text-sm font-medium text-white">Зручний час для розмови</label>
+                            <input id="call-time" name="call-time" type="text" placeholder="Наприклад, у будні після 18:00" class="w-full p-3 border border-[#333333] rounded-md text-sm bg-dark-bg text-white focus:outline-none focus:border-accent transition-colors">
+                        </div>
+                        <button class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3.5 rounded-md transition-all duration-200 uppercase tracking-wider cursor-pointer shadow-md" type="submit">Отримати безкоштовну консультацію</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. ПІДВАЛ -->
+    <footer class="bg-dark-bg text-white pt-12 md:pt-16 border-t border-[#333333]" id="contacts">
+        <div class="max-w-container mx-auto px-5 md:px-[32px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-12">
+            <div>
+                <span class="font-heading text-lg font-bold text-white block mb-2">НОВИЙ ПРОСТІР</span>
+                <p class="text-xs md:text-sm text-light-muted">Архітектурне бюро повного циклу: від ескізу до реалізації.</p>
+            </div>
+            <nav aria-label="Додаткова навігація">
+                <h3 class="font-heading text-base font-bold text-white mb-3">Навігація</h3>
+                <ul class="list-none space-y-2 text-xs md:text-sm">
+                    <li><a href="#services" class="text-light-muted hover:text-white transition-colors">Послуги</a></li>
+                    <li><a href="#before-after" class="text-light-muted hover:text-white transition-colors">Проєкти</a></li>
+                    <li><a href="#video-tour" class="text-light-muted hover:text-white transition-colors">Відео-тур</a></li>
+                    <li><a href="#team" class="text-light-muted hover:text-white transition-colors">Команда</a></li>
+                    <li><a href="#partners" class="text-light-muted hover:text-white transition-colors">Матеріали</a></li>
+                    <li><a href="#contacts" class="text-light-muted hover:text-white transition-colors">Контакти</a></li>
+                </ul>
+            </nav>
+            <div>
+                <h3 class="font-heading text-base font-bold text-white mb-3">Послуги</h3>
+                <ul class="list-none space-y-2 text-xs md:text-sm text-light-muted">
+                    <li><span>Архітектурний проєкт</span></li>
+                    <li><span>Дизайн інтер'єру</span></li>
+                    <li><span>Ревіталізація</span></li>
+                    <li><span>Авторський нагляд</span></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-heading text-base font-bold text-white mb-3">Контакти</h3>
+                <address class="not-italic text-xs md:text-sm text-light-muted leading-relaxed">
+                    м. Львів, вул. Архітекторів, 12<br>
+                    <a href="tel:+380670000000" class="hover:text-white transition-colors">+38 (067) 000-00-00</a><br>
+                    <a href="mailto:hello@novyprostir.ua" class="hover:text-white transition-colors">hello@novyprostir.ua</a>
+                </address>
+            </div>
+        </div>
+        <div class="border-t border-[#333333] py-4 text-center text-xs text-light-muted">
+            <div class="max-w-container mx-auto px-5 md:px-[32px]">
+                <p>© 2026 НОВИЙ ПРОСТІР. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

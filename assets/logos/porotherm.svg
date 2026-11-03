@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="15 0 525 105" width="100%" height="100%">
+  <!-- Фірмові червоні смуги Porotherm -->
+  <g fill="#E30613">
+    <polygon points="20,95 42,62 58,55 36,88" />
+    <polygon points="46,95 72,25 88,18 62,88" />
+    <polygon points="72,95 102,0 118,0 88,95" />
+    <polygon points="98,95 118,48 134,41 114,88" />
+  </g>
+  <!-- Чорний жирний текст Porotherm -->
+  <text x="145" y="82" fill="#000000" font-family="&#39;Arial Black&#39;, &#39;Helvetica Neue&#39;, Arial, sans-serif" font-weight="900" font-size="68" letter-spacing="-2px">Porotherm</text>
+</svg>
