@@ -36,6 +36,25 @@
                     },
                     maxWidth: {
                         'container': '1400px'
+                    },
+                    keyframes: {
+                        heroZoom: {
+                            '0%': { transform: 'scale(1.12)', opacity: '0.4' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        fadeInDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    },
+                    animation: {
+                        'hero-zoom': 'heroZoom 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in-down': 'fadeInDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards'
                     }
                 }
             }
@@ -45,11 +64,11 @@
 <body class="bg-main-bg text-main-text font-sans antialiased leading-relaxed overflow-x-hidden">
 
     <!-- 1. ШАПКА САЙТУ (HEADER) -->
-    <header class="fixed top-[10px] xl:top-[20px] left-0 right-0 z-50 px-4 xl:px-[32px]">
+    <header class="fixed top-[10px] xl:top-[20px] left-0 right-0 z-50 px-4 xl:px-[32px] animate-fade-in-down">
         <div class="max-w-container mx-auto h-[64px] xl:h-[84px] px-[20px] xl:px-[32px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-between relative">
             
             <!-- Логотип -->
-            <a class="flex items-center mr-0 xl:mr-[20px] 2xl:mr-[28px]" href="#hero" aria-label="Новий простір — на початок сторінки">
+            <a class="flex items-center shrink-0" href="#hero" aria-label="Новий простір — на початок сторінки">
                 <img src="assets/logos/logo.svg" alt="Логотип Новий простір" class="h-[72px] xl:h-[100px] w-auto block object-contain transition-transform duration-200 hover:scale-[1.02]" onerror="this.onerror=null; this.src='assets/images/logo.png';">
             </a>
 
@@ -61,16 +80,16 @@
                 <span class="w-6 h-0.5 bg-main-text transition-all duration-300 peer-checked:-rotate-45 peer-checked:-translate-y-2"></span>
             </label>
 
-            <!-- Навігація -->
-            <nav class="hidden peer-checked:flex xl:flex absolute xl:relative top-[72px] xl:top-0 right-0 left-0 xl:left-auto w-full xl:w-auto bg-white xl:bg-transparent shadow-xl xl:shadow-none p-6 xl:p-0 rounded-xl flex-col xl:flex-row items-start xl:items-center z-[1001] xl:mx-auto" aria-label="Головна навігація">
-                <ul class="flex flex-col xl:flex-row gap-4 xl:gap-[36px] 2xl:gap-[48px] items-start xl:items-center w-full list-none m-0 p-0">
-                    <li><a href="#services" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Послуги</a></li>
-                    <li><a href="#before-after" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">До / Після</a></li>
-                    <li><a href="#video-tour" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Відео-тур</a></li>
-                    <li><a href="#team" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Команда</a></li>
-                    <li><a href="#partners" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Матеріали</a></li>
-                    <li><a href="#calculator" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Калькулятор</a></li>
-                    <li><a href="#contacts" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[16px] whitespace-nowrap inline-block">Контакти</a></li>
+            <!-- Оновлена навігація з рівномірними відступами -->
+            <nav class="hidden peer-checked:flex xl:flex absolute xl:relative top-[72px] xl:top-0 right-0 left-0 xl:left-auto w-full xl:w-auto xl:grow bg-white xl:bg-transparent shadow-xl xl:shadow-none p-6 xl:p-0 rounded-xl flex-col xl:flex-row items-start xl:items-center z-[1001] xl:px-8 2xl:px-12" aria-label="Головна навігація">
+                <ul class="flex flex-col xl:flex-row justify-between items-start xl:items-center w-full list-none m-0 p-0 gap-4 xl:gap-0">
+                    <li><a href="#services" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Послуги</a></li>
+                    <li><a href="#before-after" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">До / Після</a></li>
+                    <li><a href="#video-tour" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Відео-тур</a></li>
+                    <li><a href="#team" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Команда</a></li>
+                    <li><a href="#partners" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Матеріали та партнери</a></li>
+                    <li><a href="#calculator" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Калькулятор</a></li>
+                    <li><a href="#contacts" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Контакти</a></li>
                 </ul>
                 <div class="flex xl:hidden flex-col w-full gap-3 pt-4 border-t border-gray-200">
                     <button class="w-full h-[44px] flex items-center justify-center gap-2 border border-gray-200 rounded-md bg-gray-100 text-main-text font-semibold text-sm hover:border-accent hover:text-accent transition-all duration-200" type="button" aria-label="Змінити тему">
@@ -82,7 +101,7 @@
             </nav>
 
             <!-- Дії шапки -->
-            <div class="hidden xl:flex items-center gap-[16px]">
+            <div class="hidden xl:flex items-center gap-[14px] shrink-0">
                 <button class="h-[42px] px-4 rounded-lg border border-gray-200 bg-gray-50/80 hover:bg-accent/10 hover:border-accent hover:text-accent text-main-text font-semibold text-[14px] flex items-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer" type="button" aria-label="Змінити тему" title="Змінити тему">
                     <i class="fas fa-moon text-accent text-xs"></i>
                     <span>Тема</span>
@@ -94,12 +113,16 @@
 
     <main>
         <!-- 2. HERO SECTION -->
-        <section class="relative w-full min-h-[100dvh] pt-[100px] pb-[20px] md:pt-[140px] md:pb-[60px] bg-[url('assets/images/hero.jpg')] bg-center bg-cover bg-no-repeat flex items-end" id="hero" aria-labelledby="hero-title">
-            <div class="max-w-container mx-auto px-5 md:px-[32px] w-full">
+        <section class="relative w-full min-h-[100dvh] pt-[100px] pb-[20px] md:pt-[140px] md:pb-[60px] flex items-end overflow-hidden bg-black" id="hero" aria-labelledby="hero-title">
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <img src="assets/images/hero.jpg" alt="Фон Новий простір" class="w-full h-full object-cover object-center animate-hero-zoom" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80';">
+            </div>
+
+            <div class="max-w-container mx-auto px-5 md:px-[32px] w-full relative z-10">
                 <div class="max-w-[700px] mb-0 md:mb-5 text-left w-full">
-                    <h1 class="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] font-bold text-white tracking-tight leading-tight mb-3 md:mb-4 max-md:whitespace-normal md:whitespace-nowrap" id="hero-title">НОВИЙ ПРОСТІР</h1>
-                    <p class="font-sans text-sm sm:text-base md:text-lg text-white font-medium leading-relaxed mb-5 md:mb-7">Архітектура, що поєднує естетику,<br class="hidden sm:inline">функціональність та ваш стиль життя.</p>
-                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-4 items-center w-full">
+                    <h1 class="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] font-bold text-white tracking-tight leading-tight mb-3 md:mb-4 max-md:whitespace-normal md:whitespace-nowrap animate-fade-in-up opacity-0 [animation-delay:200ms]" id="hero-title">НОВИЙ ПРОСТІР</h1>
+                    <p class="font-sans text-sm sm:text-base md:text-lg text-white font-medium leading-relaxed mb-5 md:mb-7 animate-fade-in-up opacity-0 [animation-delay:400ms]">Архітектура, що поєднує естетику,<br class="hidden sm:inline">функціональність та ваш стиль життя.</p>
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-4 items-center w-full animate-fade-in-up opacity-0 [animation-delay:600ms]">
                         <a class="w-full sm:w-auto bg-accent hover:bg-accent-hover hover:scale-[1.02] active:scale-95 text-white font-bold text-xs md:text-sm tracking-wider py-3.5 px-7 rounded-md transition-all duration-200 text-center shadow-md cursor-pointer" href="#consultation">ОБГОВОРИТИ ПРОЄКТ</a>
                         <a class="w-full sm:w-auto bg-transparent border border-white/85 hover:bg-white hover:text-main-text hover:scale-[1.02] active:scale-95 text-white font-bold text-xs md:text-sm tracking-wider py-3.5 px-7 rounded-md transition-all duration-200 text-center shadow-sm cursor-pointer" href="#calculator">РОЗРАХУВАТИ ВАРТІСТЬ</a>
                     </div>
@@ -262,7 +285,6 @@
                 <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="partners-title">Сертифіковані матеріали та світові бренди</h2>
                 <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-10">Для кожного етапу будівництва та оздоблення ми підбираємо перевірені матеріали від профільних європейських виробників.</p>
 
-                <!-- Сітка матеріалів та відповідних брендів -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
                     
                     <!-- 1. Knauf -->
@@ -455,7 +477,7 @@
                             Розташування офісу: м. Львів, вул. Архітекторів, 12
                         </span>
                         <div class="w-full h-[280px] sm:h-[340px] rounded-xl overflow-hidden shadow-md hover:shadow-lg border border-accent/50 hover:border-accent transition-all duration-200">
-                            <!-- Google Maps -->
+                            <!-- Google Maps Embed API -->
                             <iframe class="w-full h-full border-0" 
                                     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2573.08!2d24.028!3d49.839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!1m1e3!3m2!1suk!2sua" 
                                     title="Карта розташування офісу Новий простір у Львові (Супутник)" 
@@ -500,7 +522,7 @@
                     <li><a href="#before-after" class="text-light-muted hover:text-white transition-colors">Проєкти</a></li>
                     <li><a href="#video-tour" class="text-light-muted hover:text-white transition-colors">Відео-тур</a></li>
                     <li><a href="#team" class="text-light-muted hover:text-white transition-colors">Команда</a></li>
-                    <li><a href="#partners" class="text-light-muted hover:text-white transition-colors">Матеріали</a></li>
+                    <li><a href="#partners" class="text-light-muted hover:text-white transition-colors">Матеріали та партнери</a></li>
                     <li><a href="#contacts" class="text-light-muted hover:text-white transition-colors">Контакти</a></li>
                 </ul>
             </nav>
