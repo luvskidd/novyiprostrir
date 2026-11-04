@@ -259,61 +259,102 @@
         <section class="py-16 md:py-20" id="partners" aria-labelledby="partners-title">
             <div class="max-w-container mx-auto px-5 md:px-[32px]">
                 <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Матеріали та партнери</span>
-                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="partners-title">Якість матеріалів та надійні бренди</h2>
-                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-10">Співпрацюємо з провідними європейськими виробниками преміального оздоблення та конструкцій.</p>
+                <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-main-text" id="partners-title">Сертифіковані матеріали та світові бренди</h2>
+                <p class="text-gray-600 text-sm md:text-base max-w-[680px] mb-10">Для кожного етапу будівництва та оздоблення ми підбираємо перевірені матеріали від профільних європейських виробників.</p>
 
-                <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12 list-none">
-                    <li>
-                        <a href="https://www.knauf.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Knauf" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                <!-- Сітка матеріалів та відповідних брендів -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
+                    
+                    <!-- 1. Knauf -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Гіпсокартон & Штукатурка</span>
+                        <a href="https://www.knauf.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Knauf" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/knauf.svg" alt="Логотип Knauf" loading="lazy" class="max-w-full max-h-full scale-125 object-contain transition-transform duration-200 group-hover:scale-130">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.caparol.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Caparol" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">Knauf (Німеччина)</span>
+                    </div>
+
+                    <!-- 2. Caparol -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Еко-фарби & Фасади</span>
+                        <a href="https://www.caparol.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Caparol" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/caparol.svg" alt="Логотип CAPAROL" loading="lazy" class="max-w-full max-h-full scale-135 object-contain transition-transform duration-200 group-hover:scale-140">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.reynaers.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Reynaers" class="bg-[#004B93] rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">Caparol (Німеччина)</span>
+                    </div>
+
+                    <!-- 3. Reynaers -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Алюмінієві профілі</span>
+                        <a href="https://www.reynaers.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Reynaers" class="h-16 bg-[#004B93] rounded-lg px-3 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/reynaers.svg" alt="Логотип Reynaers" loading="lazy" class="max-w-full max-h-full brightness-0 invert scale-110 object-contain transition-transform duration-200 group-hover:scale-115">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.velux.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт VELUX" class="bg-[#fe001e] rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">Reynaers (Бельгія)</span>
+                    </div>
+
+                    <!-- 4. VELUX -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Мансардні вікна</span>
+                        <a href="https://www.velux.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт VELUX" class="h-16 bg-[#fe001e] rounded-lg px-3 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/velux.svg" alt="Логотип VELUX" loading="lazy" class="max-w-full max-h-full scale-105 object-contain transition-transform duration-200 group-hover:scale-110">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.wienerberger.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Porotherm" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">VELUX (Данія)</span>
+                    </div>
+
+                    <!-- 5. Porotherm -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Керамічні блоки</span>
+                        <a href="https://www.wienerberger.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт Porotherm" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/porotherm.svg" alt="Логотип Porotherm" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.jung.de/en/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт JUNG" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">Porotherm (Австрія)</span>
+                    </div>
+
+                    <!-- 6. JUNG -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Smart Home & Електрика</span>
+                        <a href="https://www.jung.de/en/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт JUNG" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/jung.svg" alt="Логотип JUNG" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.grohe.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт GROHE" class="bg-[#152849] rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">JUNG (Німеччина)</span>
+                    </div>
+
+                    <!-- 7. GROHE -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Змішувачі & Інсталяції</span>
+                        <a href="https://www.grohe.ua/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт GROHE" class="h-16 bg-[#152849] rounded-lg px-3 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/grohe.svg" alt="Логотип GROHE" loading="lazy" class="max-w-full max-h-full scale-145 object-contain transition-transform duration-200 group-hover:scale-150">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.duravit.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт DURAVIT" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">GROHE (Німеччина)</span>
+                    </div>
+
+                    <!-- 8. DURAVIT -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Дизайнерська кераміка</span>
+                        <a href="https://www.duravit.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт DURAVIT" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/duravit.svg" alt="Логотип DURAVIT" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.egger.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт EGGER" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">DURAVIT (Німеччина)</span>
+                    </div>
+
+                    <!-- 9. EGGER -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Меблеві ДСП/МДФ плити</span>
+                        <a href="https://www.egger.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт EGGER" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/egger.svg" alt="Логотип EGGER" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
                         </a>
-                    </li>
-                    <li>
-                        <a href="https://www.holcim.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт LAFARGE" class="bg-white border border-gray-200 rounded-xl p-4 h-24 flex items-center justify-center hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 overflow-hidden group">
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">EGGER (Австрія)</span>
+                    </div>
+
+                    <!-- 10. LAFARGE -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md hover:border-accent transition-all duration-200 group">
+                        <span class="inline-block self-start text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">Конструкційний бетон</span>
+                        <a href="https://www.holcim.com/" target="_blank" rel="noopener noreferrer" title="Відвідати сайт LAFARGE" class="h-16 flex items-center justify-center my-1 overflow-hidden">
                             <img src="assets/logos/lafarge.svg" alt="Логотип LAFARGE" loading="lazy" class="max-w-full max-h-full object-contain transition-transform duration-200 group-hover:scale-105">
                         </a>
-                    </li>
-                </ul>
+                        <span class="text-xs text-center font-semibold text-gray-600 mt-2 block">LafargeHolcim (Франція)</span>
+                    </div>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                     <div class="flex items-start gap-3">
