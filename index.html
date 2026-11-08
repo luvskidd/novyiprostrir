@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Архітектурне бюро «Новий простір» у Львові: проєктування будинків, дизайн інтер'єру, авторський нагляд і ревіталізація (ЛР №7).">
-    <title>Новий простір — архітектурне бюро у Львові (ЛР №7)</title>
+    <meta name="description" content="Архітектурне бюро «Новий простір» у Львові: проєктування будинків, дизайн інтер'єру, авторський нагляд і ревіталізація (ЛР №7, №8, №9).">
+    <title>Новий простір — архітектурне бюро у Львові</title>
 
     <!-- Google Fonts (Inter, Playfair Display, Raleway) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,7 +80,7 @@
                 <span class="w-6 h-0.5 bg-main-text transition-all duration-300 peer-checked:-rotate-45 peer-checked:-translate-y-2"></span>
             </label>
 
-            <!-- Оновлена навігація з рівномірними відступами -->
+            <!-- Навігація -->
             <nav class="hidden peer-checked:flex xl:flex absolute xl:relative top-[72px] xl:top-0 right-0 left-0 xl:left-auto w-full xl:w-auto xl:grow bg-white xl:bg-transparent shadow-xl xl:shadow-none p-6 xl:p-0 rounded-xl flex-col xl:flex-row items-start xl:items-center z-[1001] xl:px-8 2xl:px-12" aria-label="Головна навігація">
                 <ul class="flex flex-col xl:flex-row justify-between items-start xl:items-center w-full list-none m-0 p-0 gap-4 xl:gap-0">
                     <li><a href="#services" class="text-main-text hover:text-accent hover:scale-[1.02] hover:-translate-y-[1px] transition-all duration-200 font-bold text-[15.5px] 2xl:text-[16.5px] whitespace-nowrap inline-block">Послуги</a></li>
@@ -464,44 +464,122 @@
         </section>
 
         <!-- 9. БЕЗКОШТОВНА КОНСУЛЬТАЦІЯ ТА ЛОКАЦІЯ -->
-        <section class="bg-dark-bg text-white py-16 md:py-20" id="consultation" aria-labelledby="consultation-title">
-            <div class="max-w-container mx-auto px-5 md:px-[32px] grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <section class="bg-dark-bg text-white py-16 md:py-20 border-t border-[#262626]" id="consultation" aria-labelledby="consultation-title">
+            <div class="max-w-container mx-auto px-5 md:px-[32px] grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 <div>
                     <span class="inline-block text-xs font-bold text-accent uppercase tracking-widest mb-2">Наступний крок</span>
-                    <h2 class="font-heading text-2xl md:text-4xl font-bold mb-2 text-white" id="consultation-title">Безкоштовна консультація архітектора</h2>
-                    <p class="text-light-muted text-sm md:text-base mb-6">Залиште контакти — архітектор зателефонує у зручний для вас час або завітайте до нашого офісу у Львові.</p>
+                    <h2 class="font-heading text-2xl md:text-4xl font-bold mb-3 text-white" id="consultation-title">Безкоштовна консультація архітектора</h2>
+                    <p class="text-light-muted text-sm md:text-base mb-6 leading-relaxed">Залиште контакти — архітектор зателефонує у зручний для вас час або завітайте до нашого бюро у Львові.</p>
                     
                     <div class="mt-6">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-light-muted block mb-2 flex items-center gap-1.5">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-light-muted block mb-3 flex items-center gap-2">
                             <i class="fas fa-map-marker-alt text-accent"></i>
-                            Розташування офісу: м. Львів, вул. Архітекторів, 12
+                            Локація бюро: м. Львів, вул. Архітекторів, 12
                         </span>
-                        <div class="w-full h-[280px] sm:h-[340px] rounded-xl overflow-hidden shadow-md hover:shadow-lg border border-accent/50 hover:border-accent transition-all duration-200">
-                            <!-- Google Maps Embed API -->
+                        <div class="w-full h-[280px] sm:h-[340px] rounded-xl overflow-hidden shadow-2xl border border-white/10 hover:border-accent/40 transition-all duration-300">
                             <iframe class="w-full h-full border-0" 
                                     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2573.08!2d24.028!3d49.839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!1m1e3!3m2!1suk!2sua" 
-                                    title="Карта розташування офісу Новий простір у Львові (Супутник)" 
+                                    title="Карта розташування офісу Новий простір у Львові" 
                                     loading="lazy" 
                                     referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <form action="#" class="space-y-4 bg-dark-card/60 p-6 rounded-xl border border-[#333333] hover:border-accent/50 transition-all duration-200">
-                        <div class="flex flex-col gap-2">
-                            <label for="name" class="text-sm font-medium text-white">Ім'я *</label>
-                            <input id="name" name="name" type="text" placeholder="Ваше ім'я" autocomplete="name" required class="w-full p-3 border border-[#333333] rounded-md text-sm bg-dark-bg text-white focus:outline-none focus:border-accent transition-colors">
+                <!-- Форма зворотного зв'язку з теракотовою рамкою -->
+                <div class="bg-dark-card/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl border-2 border-accent hover:border-accent-hover transition-all duration-300 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+                    
+                    <div class="mb-6 pb-4 border-b border-white/10">
+                        <h3 class="font-heading text-lg font-bold text-white tracking-wide">Форма зворотного зв'язку</h3>
+                        <p class="text-xs text-light-muted">Заповніть обов'язкові поля з позначкою *</p>
+                    </div>
+
+                    <form id="feedback-form" class="space-y-4" novalidate>
+                        <!-- ПІБ -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="name" class="text-xs font-medium text-gray-300">
+                                ПІБ користувача <span class="text-accent">*</span>
+                            </label>
+                            <input id="name" name="name" type="text" placeholder="Коваль Олександр Миколайович" autocomplete="name" required
+                                   class="w-full p-3 border border-[#333333] rounded-lg text-sm bg-dark-bg text-white focus:outline-none focus:border-accent/80 transition-all"
+                                   aria-describedby="name-error" aria-invalid="false">
+                            <p id="name-error" class="hidden text-xs text-red-400 mt-0.5 flex items-center gap-1.5">
+                                <i class="fas fa-exclamation-circle"></i> <span>Будь ласка, вкажіть коректне ім'я (тільки літери, мін. 2 символи)</span>
+                            </p>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="phone" class="text-sm font-medium text-white">Телефон *</label>
-                            <input id="phone" name="phone" type="tel" placeholder="+380 __ ___ __ __" autocomplete="tel" required class="w-full p-3 border border-[#333333] rounded-md text-sm bg-dark-bg text-white focus:outline-none focus:border-accent transition-colors">
+
+                        <!-- Email & Телефон -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Email -->
+                            <div class="flex flex-col gap-1.5">
+                                <label for="email" class="text-xs font-medium text-gray-300">
+                                    Електронна адреса <span class="text-accent">*</span>
+                                </label>
+                                <input id="email" name="email" type="email" placeholder="example@gmail.com" autocomplete="email" required
+                                       class="w-full p-3 border border-[#333333] rounded-lg text-sm bg-dark-bg text-white focus:outline-none focus:border-accent/80 transition-all"
+                                       aria-describedby="email-error" aria-invalid="false">
+                                <p id="email-error" class="hidden text-xs text-red-400 mt-0.5 flex items-center gap-1.5">
+                                    <i class="fas fa-exclamation-circle"></i> <span>Введіть дійсний Email (напр. name@domain.com)</span>
+                                </p>
+                            </div>
+
+                            <!-- Телефон -->
+                            <div class="flex flex-col gap-1.5">
+                                <label for="phone" class="text-xs font-medium text-gray-300">
+                                    Номер телефону <span class="text-accent">*</span>
+                                </label>
+                                <input id="phone" name="phone" type="tel" value="+380" placeholder="+380XXXXXXXXX" autocomplete="tel" maxlength="13" required
+                                       class="w-full p-3 border border-[#333333] rounded-lg text-sm bg-dark-bg text-white focus:outline-none focus:border-accent/80 transition-all"
+                                       aria-describedby="phone-error" aria-invalid="false">
+                                <p id="phone-error" class="hidden text-xs text-red-400 mt-0.5 flex items-center gap-1.5">
+                                    <i class="fas fa-exclamation-circle"></i> <span>Формат: +380 та 9 цифр</span>
+                                </p>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="call-time" class="text-sm font-medium text-white">Зручний час для розмови</label>
-                            <input id="call-time" name="call-time" type="text" placeholder="Наприклад, у будні після 18:00" class="w-full p-3 border border-[#333333] rounded-md text-sm bg-dark-bg text-white focus:outline-none focus:border-accent transition-colors">
+
+                        <!-- Тема звернення -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="subject" class="text-xs font-medium text-gray-300">Тема звернення</label>
+                            <select id="subject" name="subject" class="w-full p-3 border border-[#333333] rounded-lg text-sm bg-dark-bg text-white focus:outline-none focus:border-accent/80 transition-all cursor-pointer">
+                                <option value="Безкоштовна консультація" selected>Безкоштовна консультація архітектора</option>
+                                <option value="Архітектурне проєктування">Архітектурне проєктування</option>
+                                <option value="Дизайн інтер'єру">Дизайн інтер'єру</option>
+                                <option value="Авторський нагляд">Авторський нагляд</option>
+                            </select>
                         </div>
-                        <button class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold text-xs py-3.5 rounded-md transition-all duration-200 uppercase tracking-wider cursor-pointer shadow-md" type="submit">Отримати безкоштовну консультацію</button>
+
+                        <!-- Повідомлення -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="message" class="text-xs font-medium text-gray-300">
+                                Ваше повідомлення <span class="text-accent">*</span>
+                            </label>
+                            <textarea id="message" name="message" rows="3" maxlength="500" placeholder="Розкажіть про ваш проєкт або питання..." required
+                                      class="w-full p-3 border border-[#333333] rounded-lg text-sm bg-dark-bg text-white focus:outline-none focus:border-accent/80 transition-all resize-none"
+                                      aria-describedby="message-error" aria-invalid="false"></textarea>
+                            <div class="flex justify-between items-center text-xs mt-0.5">
+                                <p id="message-error" class="hidden text-red-400 flex items-center gap-1.5">
+                                    <i class="fas fa-exclamation-circle"></i> <span>Мінімум 10 символів</span>
+                                </p>
+                                <span id="char-counter" class="text-light-muted ml-auto select-none">0 / 500 символів</span>
+                            </div>
+                        </div>
+
+                        <!-- Чекбокс згоди -->
+                        <div class="flex flex-col gap-1 pt-1">
+                            <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                                <input id="agreement" name="agreement" type="checkbox" required class="mt-1 w-4 h-4 accent-accent rounded cursor-pointer" aria-describedby="agreement-error">
+                                <span class="text-xs text-light-muted leading-snug">Даю згоду на обробку моїх персональних даних згідно з чинним законодавством України. <span class="text-accent">*</span></span>
+                            </label>
+                            <p id="agreement-error" class="hidden text-xs text-red-400 mt-0.5 flex items-center gap-1.5">
+                                <i class="fas fa-exclamation-circle"></i> <span>Потрібно дати згоду для продовження</span>
+                            </p>
+                        </div>
+
+                        <!-- Кнопка -->
+                        <button type="submit" class="w-full bg-accent hover:bg-accent-hover active:scale-[0.98] text-white font-bold text-xs sm:text-sm py-4 px-6 rounded-lg transition-all duration-200 uppercase tracking-widest cursor-pointer shadow-lg flex items-center justify-center gap-2.5">
+                            <span>Надіслати форму</span>
+                            <i class="fas fa-paper-plane text-xs"></i>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -551,5 +629,47 @@
         </div>
     </footer>
 
+    <!-- МОДАЛЬНЕ ВІКНО З АНІМАЦІЄЮ -->
+    <div id="success-modal" class="fixed inset-0 z-[2000] hidden opacity-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div id="modal-card" class="bg-[#1f1f1f] border border-white/10 text-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative transform scale-90 translate-y-4 opacity-0 transition-all duration-300">
+            
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-400 text-xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 id="modal-title" class="font-heading text-xl font-bold text-center mb-2 text-white">Форму успішно надіслано!</h3>
+            <p class="text-xs text-light-muted text-center mb-6 leading-relaxed">Дякуємо! Ваші дані пройшли повну клієнтську валідацію та зареєстровані в системі.</p>
+            
+            <!-- Підсумок даних -->
+            <div class="bg-black/50 border border-white/10 rounded-xl p-4 text-xs space-y-2.5 mb-6">
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-light-muted">Користувач:</span>
+                    <span id="summary-name" class="font-semibold text-white"></span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-light-muted">Email:</span>
+                    <span id="summary-email" class="font-semibold text-white"></span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-light-muted">Номер телефону:</span>
+                    <span id="summary-phone" class="font-semibold text-white"></span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-light-muted">Тема:</span>
+                    <span id="summary-subject" class="font-semibold text-white"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-light-muted">Статус:</span>
+                    <span class="font-bold text-emerald-400 flex items-center gap-1.5"><i class="fas fa-circle text-[8px]"></i> Валідно</span>
+                </div>
+            </div>
+
+            <button id="close-modal" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl transition-all duration-200 cursor-pointer text-xs uppercase tracking-wider shadow-lg">
+                Зрозуміло, закрити
+            </button>
+        </div>
+    </div>
+
+    <!-- Скрипт валідації (ЛР №9) -->
+    <script src="assets/js/validation.js" defer></script>
 </body>
 </html>
