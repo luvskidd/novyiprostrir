@@ -1,4 +1,366 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Тема
+    const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+    const htmlEl = document.documentElement;
+
+    function initTheme() {
+        updateThemeIcons(htmlEl.classList.contains('dark'));
+    }
+
+    function updateThemeIcons(isDark) {
+        themeToggleBtns.forEach(btn => {
+            const icon = btn.querySelector('i');
+            const text = btn.querySelector('span');
+            if (isDark) {
+                if (icon) icon.className = 'fas fa-sun text-amber-400 text-xs';
+                if (text) text.textContent = 'Світла тема';
+            } else {
+                if (icon) icon.className = 'fas fa-moon text-accent text-xs';
+                if (text) text.textContent = 'Темна тема';
+            }
+        });
+    }
+
+    themeToggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            htmlEl.classList.toggle('dark');
+            const isDark = htmlEl.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcons(isDark);
+        });
+    });
+
+    initTheme();
+
+    // Курс НБУ
+    let currentUsdRate = 41.50;
+    let isCalculated = false;
+
+    async function fetchNbuRate() {
+        try {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const todayParam = `${yyyy}${mm}${dd}`;
+
+            const response = await fetch(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&date=${todayParam}&json`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data?.[0]?.rate) {
+                    currentUsdRate = parseFloat(data[0].rate);
+                    const rateValEl = document.getElementById('nbu-rate-val');
+                    const dateValEl = document.getElementById('nbu-date-val');
+                    if (rateValEl) rateValEl.textContent = `${currentUsdRate.toFixed(2)} ₴`;
+                    if (dateValEl) dateValEl.textContent = `НБУ (${data[0].exchangedate})`;
+                    if (isCalculated) renderCalculation(false, false);
+                }
+            }
+        } catch {
+            // Залишаємо резервний курс
+        }
+    }
+    fetchNbuRate();
+
+    // Калькулятор вартості
+    const MIN_AREA = 15;
+    const MAX_AREA = 500;
+    const DEFAULT_AREA = 120;
+
+    const areaInput = document.getElementById('calc-area');
+    const areaRange = document.getElementById('calc-area-range');
+    const areaErrorEl = document.getElementById('calc-area-error');
+    const typeRadios = document.querySelectorAll('input[name="calc-type-radio"]');
+    const tariffSelect = document.getElementById('calc-tariff');
+
+    const optSupervision = document.getElementById('calc-opt-supervision');
+    const optSmartHome = document.getElementById('calc-opt-smarthome');
+    const optUrgent = document.getElementById('calc-opt-urgent');
+
+    const submitWrapper = document.getElementById('calc-submit-wrapper');
+    const submitBtn = document.getElementById('calc-submit-btn');
+    const btnIcon = document.getElementById('calc-btn-icon');
+    const btnText = document.getElementById('calc-btn-text');
+
+    const resultBox = document.getElementById('calc-result-box');
+    const totalUsdEl = document.getElementById('calc-total-usd');
+    const totalUahEl = document.getElementById('calc-total-uah');
+    const breakdownEl = document.getElementById('calc-breakdown-text');
+
+    const transferBtn = document.getElementById('calc-transfer-btn');
+    const exportBtn = document.getElementById('calc-export-btn');
+
+    let isAnimating = false;
+
+    function setAreaError(hasError, message = '') {
+        if (!areaInput) return;
+        if (hasError) {
+            areaInput.classList.add('border-red-500', 'dark:border-red-500');
+            areaInput.classList.remove('border-accent/40');
+            areaInput.setAttribute('aria-invalid', 'true');
+            if (areaErrorEl) {
+                const span = areaErrorEl.querySelector('span');
+                if (span && message) span.textContent = message;
+                areaErrorEl.classList.remove('hidden');
+            }
+        } else {
+            areaInput.classList.remove('border-red-500', 'dark:border-red-500');
+            areaInput.classList.add('border-accent/40');
+            areaInput.setAttribute('aria-invalid', 'false');
+            if (areaErrorEl) areaErrorEl.classList.add('hidden');
+        }
+    }
+
+    function getSanitizedArea(normalizeField = false) {
+        if (!areaInput) return DEFAULT_AREA;
+        const raw = String(areaInput.value ?? '').trim();
+
+        if (raw === '') {
+            setAreaError(true, `Вкажіть площу (мінімум ${MIN_AREA} м²)`);
+            if (normalizeField) {
+                areaInput.value = String(MIN_AREA);
+                setAreaError(false);
+            }
+            if (areaRange) areaRange.value = String(MIN_AREA);
+            return MIN_AREA;
+        }
+
+        const parsed = Number(raw);
+        if (!Number.isFinite(parsed)) {
+            setAreaError(true, 'Введіть коректне числове значення');
+            if (normalizeField) {
+                areaInput.value = String(DEFAULT_AREA);
+                setAreaError(false);
+            }
+            if (areaRange) areaRange.value = String(DEFAULT_AREA);
+            return DEFAULT_AREA;
+        }
+
+        let safeArea = Math.round(parsed);
+        let hasWarning = parsed !== safeArea;
+        let warningMsg = hasWarning ? `Дробове значення округлено до ${safeArea} м²` : '';
+
+        if (safeArea < MIN_AREA) {
+            safeArea = MIN_AREA;
+            hasWarning = true;
+            warningMsg = `Мінімальна площа — ${MIN_AREA} м²`;
+        } else if (safeArea > MAX_AREA) {
+            safeArea = MAX_AREA;
+            hasWarning = true;
+            warningMsg = `Максимальна площа — ${MAX_AREA} м²`;
+        }
+
+        setAreaError(hasWarning, warningMsg);
+
+        if (normalizeField) {
+            areaInput.value = String(safeArea);
+            setAreaError(false);
+        }
+        if (areaRange) areaRange.value = String(safeArea);
+
+        return safeArea;
+    }
+
+    function calculateCost(normalizeField = false) {
+        const area = getSanitizedArea(normalizeField);
+
+        const selectedTypeRadio = document.querySelector('input[name="calc-type-radio"]:checked');
+        const typeCoeff = parseFloat(selectedTypeRadio?.dataset?.coeff) || 1.0;
+        const typeName = selectedTypeRadio?.value === 'house'
+            ? 'Приватний будинок'
+            : selectedTypeRadio?.value === 'commercial'
+                ? 'Комерція'
+                : 'Квартира';
+
+        const selectedTariffOpt = tariffSelect.options[tariffSelect.selectedIndex];
+        const tariffPrice = parseFloat(selectedTariffOpt?.dataset?.price) || 35;
+        const tariffName = selectedTariffOpt.text.split('—')[0].trim();
+
+        const baseCost = area * tariffPrice * typeCoeff;
+        const supervisionCost = optSupervision?.checked ? baseCost * 0.20 : 0;
+        const smartHomeCost = optSmartHome?.checked ? 500 : 0;
+        const urgentCost = optUrgent?.checked ? baseCost * 0.15 : 0;
+
+        const totalUsd = Math.round(baseCost + supervisionCost + smartHomeCost + urgentCost);
+        const totalUah = Math.round(totalUsd * currentUsdRate);
+
+        return {
+            area,
+            typeName,
+            tariffName,
+            tariffPrice,
+            totalUsd,
+            totalUah,
+            supervision: Boolean(optSupervision?.checked),
+            smartHome: Boolean(optSmartHome?.checked),
+            urgent: Boolean(optUrgent?.checked)
+        };
+    }
+
+    function renderCalculation(normalizeField = false, revealBox = false) {
+        if (!areaInput || !tariffSelect || !totalUsdEl || !totalUahEl) return;
+
+        const data = calculateCost(normalizeField);
+
+        totalUsdEl.textContent = `$${data.totalUsd.toLocaleString('uk-UA')}`;
+        totalUahEl.textContent = `(~ ${data.totalUah.toLocaleString('uk-UA')} ₴)`;
+
+        if (breakdownEl) {
+            const optionsList = [
+                data.supervision ? 'Авторський нагляд (+20%)' : '',
+                data.smartHome ? 'Smart Home (+$500)' : '',
+                data.urgent ? 'Терміновість (+15%)' : ''
+            ].filter(Boolean).join(', ') || 'Без доп. опцій';
+
+            breakdownEl.innerHTML = `
+                <div class="flex justify-between"><span>• Об'єкт & Площа:</span><span class="font-bold text-main-text dark:text-white">${data.typeName}, ${data.area} м²</span></div>
+                <div class="flex justify-between"><span>• Тариф:</span><span class="font-bold text-main-text dark:text-white">${data.tariffName} ($${data.tariffPrice}/м²)</span></div>
+                <div class="flex justify-between"><span>• Опції:</span><span class="font-bold text-main-text dark:text-white">${optionsList}</span></div>
+            `;
+        }
+
+        if (revealBox && resultBox) {
+            resultBox.classList.remove('grid-rows-[0fr]', 'opacity-0', 'translate-y-2', 'pointer-events-none');
+            resultBox.classList.add('grid-rows-[1fr]', 'opacity-100', 'translate-y-0');
+        }
+    }
+
+    function handleLiveUpdate(normalizeField = false) {
+        getSanitizedArea(normalizeField);
+        if (!isCalculated) return;
+        renderCalculation(normalizeField, false);
+    }
+
+    if (areaInput) {
+        areaInput.addEventListener('input', () => handleLiveUpdate(false));
+        areaInput.addEventListener('blur', () => handleLiveUpdate(true));
+    }
+
+    if (areaRange) {
+        areaRange.addEventListener('input', () => {
+            if (areaInput) areaInput.value = areaRange.value;
+            setAreaError(false);
+            if (isCalculated) renderCalculation(false, false);
+        });
+    }
+
+    typeRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (isCalculated) renderCalculation(false, false);
+        });
+    });
+
+    if (tariffSelect) {
+        tariffSelect.addEventListener('change', () => {
+            if (isCalculated) renderCalculation(false, false);
+        });
+    }
+
+    [optSupervision, optSmartHome, optUrgent].forEach(checkbox => {
+        if (checkbox) {
+            checkbox.addEventListener('change', () => {
+                if (isCalculated) renderCalculation(false, false);
+            });
+        }
+    });
+
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            if (isAnimating || isCalculated) return;
+            isAnimating = true;
+
+            submitBtn.classList.remove('bg-accent', 'hover:bg-accent-hover');
+            submitBtn.classList.add('bg-gray-700', 'pointer-events-none');
+            if (btnIcon) btnIcon.className = 'fas fa-spinner fa-spin text-base';
+            if (btnText) btnText.textContent = 'Розраховуємо...';
+
+            setTimeout(() => {
+                isCalculated = true;
+                renderCalculation(true, true);
+
+                submitBtn.classList.remove('bg-gray-700');
+                submitBtn.classList.add('bg-emerald-600');
+                if (btnIcon) btnIcon.className = 'fas fa-check text-base';
+                if (btnText) btnText.textContent = 'Вартість розраховано!';
+
+                setTimeout(() => {
+                    if (submitWrapper) {
+                        submitWrapper.classList.remove('grid-rows-[1fr]', 'opacity-100', 'scale-100');
+                        submitWrapper.classList.add('grid-rows-[0fr]', 'opacity-0', 'scale-95', 'pointer-events-none');
+                        setTimeout(() => {
+                            submitWrapper.classList.add('hidden');
+                            isAnimating = false;
+                        }, 520);
+                    } else {
+                        isAnimating = false;
+                    }
+                }, 650);
+            }, 450);
+        });
+    }
+
+    if (transferBtn) {
+        transferBtn.addEventListener('click', () => {
+            const data = calculateCost(true);
+            const messageInput = document.getElementById('message');
+            const subjectSelect = document.getElementById('subject');
+            const consultationSection = document.getElementById('consultation');
+
+            if (messageInput) {
+                messageInput.value = `Доброго дня! Цікавить проєкт за розрахованим кошторисом:\n- Тип об'єкта: ${data.typeName}\n- Площа: ${data.area} м²\n- Пакет: ${data.tariffName}\n- Розрахована вартість: $${data.totalUsd.toLocaleString('uk-UA')} (~${data.totalUah.toLocaleString('uk-UA')} ₴).`;
+                messageInput.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+
+            if (subjectSelect) subjectSelect.value = 'Безкоштовна консультація';
+            if (consultationSection) consultationSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            const data = calculateCost(true);
+            const textContent =
+`==================================================
+  АРХІТЕКТУРНЕ БЮРО «НОВИЙ ПРОСТІР»
+  Попередній розрахунок кошторису проєкту
+==================================================
+
+Дата розрахунку: ${new Date().toLocaleDateString('uk-UA')}
+Курс NBU (USD/UAH): ${currentUsdRate.toFixed(2)} ₴
+
+ПАРАМЕТРИ ОБ'ЄКТА:
+--------------------------------------------------
+• Площа приміщення: ${data.area} м²
+• Тип нерухомості:  ${data.typeName}
+• Обраний тариф:     ${data.tariffName} ($${data.tariffPrice}/м²)
+
+ДОДАТКОВІ ОПЦІЇ:
+--------------------------------------------------
+• Авторський нагляд: ${data.supervision ? 'Включено (+20%)' : 'Ні'}
+• Система Smart Home: ${data.smartHome ? 'Включено (+$500)' : 'Ні'}
+• Термінова розробка: ${data.urgent ? 'Включено (+15%)' : 'Ні'}
+
+==================================================
+ПІДСУМКОВА ВАРТІСТЬ:
+$${data.totalUsd.toLocaleString('uk-UA')} USD  (~ ${data.totalUah.toLocaleString('uk-UA')} UAH)
+==================================================
+
+Контакти бюро «Новий простір»:
+Телефон: +38 (067) 000-00-00
+Email: hello@novyprostir.ua
+Адреса: м. Львів, вул. Архітекторів, 12
+`;
+
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Koshtorys_NovyProstir_${data.area}m2.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        });
+    }
+
+    // Форма зворотного зв'язку
     const form = document.getElementById('feedback-form');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
@@ -27,7 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const REGEX_PHONE = /^\+380\d{9}$/;
 
-    // Кнопка "Нагору"
     if (backToTopBtn) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 400) {
@@ -44,12 +405,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Маска телефону
-    if (phoneInput && (!phoneInput.value || phoneInput.value.trim() === '')) {
-        phoneInput.value = '+380';
-    }
-
     if (phoneInput) {
+        if (!phoneInput.value || phoneInput.value.trim() === '') phoneInput.value = '+380';
+
         phoneInput.addEventListener('focus', () => {
             if (!phoneInput.value) phoneInput.value = '+380';
         });
@@ -69,22 +427,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function showError(inputElement, errorElementId, messageText = null) {
-        inputElement.classList.remove('border-[#333333]', 'border-emerald-500', 'focus:border-emerald-500');
+    function showError(inputElement, errorElementId) {
+        inputElement.classList.remove('border-gray-200', 'dark:border-[#333333]', 'border-emerald-500', 'focus:border-emerald-500');
         inputElement.classList.add('border-red-500', 'focus:border-red-500');
         inputElement.setAttribute('aria-invalid', 'true');
         const errorEl = document.getElementById(errorElementId);
-        if (errorEl) {
-            if (messageText) {
-                const textSpan = errorEl.querySelector('span');
-                if (textSpan) textSpan.textContent = messageText;
-            }
-            errorEl.classList.remove('hidden');
-        }
+        if (errorEl) errorEl.classList.remove('hidden');
     }
 
     function showSuccess(inputElement, errorElementId) {
-        inputElement.classList.remove('border-[#333333]', 'border-red-500', 'focus:border-red-500');
+        inputElement.classList.remove('border-gray-200', 'dark:border-[#333333]', 'border-red-500', 'focus:border-red-500');
         inputElement.classList.add('border-emerald-500', 'focus:border-emerald-500');
         inputElement.setAttribute('aria-invalid', 'false');
         const errorEl = document.getElementById(errorElementId);
@@ -137,12 +489,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function validateAgreement() {
         if (!agreementCheckbox) return true;
+        const errorEl = document.getElementById('agreement-error');
         if (agreementCheckbox.checked) {
-            const errorEl = document.getElementById('agreement-error');
             if (errorEl) errorEl.classList.add('hidden');
             return true;
         }
-        const errorEl = document.getElementById('agreement-error');
         if (errorEl) errorEl.classList.remove('hidden');
         return false;
     }
@@ -167,9 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isMessageValid = validateMessage();
             const isAgreementValid = validateAgreement();
 
-            const valid = isNameValid && isEmailValid && isPhoneValid && isMessageValid && isAgreementValid;
-
-            if (valid) {
+            if (isNameValid && isEmailValid && isPhoneValid && isMessageValid && isAgreementValid) {
                 if (summaryName) summaryName.textContent = nameInput.value.trim();
                 if (summaryEmail) summaryEmail.textContent = emailInput.value.trim();
                 if (summaryPhone) summaryPhone.textContent = phoneInput.value.trim();
@@ -183,7 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 [nameInput, emailInput, phoneInput, messageInput].forEach(el => {
                     if (el) {
                         el.classList.remove('border-emerald-500', 'border-red-500', 'focus:border-emerald-500', 'focus:border-red-500');
-                        el.classList.add('border-[#333333]');
                     }
                 });
             }
@@ -211,21 +559,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
     if (modal) modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 
+    // Модальні вікна послуг і команди
     const modalData = {
         "service-arch": {
             badge: "Тариф • Архітектура",
             title: "Архітектурне проєктування",
             subtitle: "від 35 $/м² • Термін: від 30 робочих днів",
             content: `
-                <p class="text-xs text-gray-500 mb-4 font-medium">Склад повного робочого проєкту включає:</p>
-                <ul class="space-y-2.5 text-xs text-gray-700 mb-6">
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 font-medium">Склад повного робочого проєкту включає:</p>
+                <ul class="space-y-2.5 text-xs text-gray-700 dark:text-gray-300 mb-6">
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Генеральний план об'єкта та схематична прив'язка</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> 3D-візуалізації фасадів у високій роздільності</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Поверхові плани, поетажна кладка та розрізи</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Специфікація віконних та дверних блоків</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Відповідність будівельним нормам України (ДБН)</li>
                 </ul>
-                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
+                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
                     Замовити концепт
                 </button>
             `,
@@ -236,15 +585,15 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Дизайн інтер'єру під ключ",
             subtitle: "від 25 $/м² • Термін: від 20 робочих днів",
             content: `
-                <p class="text-xs text-gray-500 mb-4 font-medium">Комплексний склад дизайн-проєкту:</p>
-                <ul class="space-y-2.5 text-xs text-gray-700 mb-6">
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 font-medium">Комплексний склад дизайн-проєкту:</p>
+                <ul class="space-y-2.5 text-xs text-gray-700 dark:text-gray-300 mb-6">
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> 3-4 варіативні об'ємно-планувальні рішення</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Фотореалістичні 3D-рендери всіх приміщень</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> План прив'язки електрики, розеток та освітлення</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Розгортки стін санвузлів та підбір сантехніки</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Специфікація оздоблювальних матеріалів і меблів</li>
                 </ul>
-                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
+                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
                     Обрати цей тариф
                 </button>
             `,
@@ -255,14 +604,14 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Авторський нагляд будівництва",
             subtitle: "від 15 $/м² • Виїзди щотижня",
             content: `
-                <p class="text-xs text-gray-500 mb-4 font-medium">Гарантія точної реалізації вашого проєкту:</p>
-                <ul class="space-y-2.5 text-xs text-gray-700 mb-6">
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 font-medium">Гарантія точної реалізації вашого проєкту:</p>
+                <ul class="space-y-2.5 text-xs text-gray-700 dark:text-gray-300 mb-6">
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Регулярні виїзди ГАПа/дизайнера на об'єкт</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Контроль відповідності робіт робочим кресленням</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Консультації виконроба та підрядних бригад</li>
                     <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-accent text-sm"></i> Оперативне внесення коригувань у креслення</li>
                 </ul>
-                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
+                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
                     Замовити нагляд
                 </button>
             `,
@@ -273,14 +622,14 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Задати питання Олександру Ковалю",
             subtitle: "ГАП • Досвід понад 10 років у житловій та комерційній архітектурі",
             content: `
-                <div class="bg-gray-50 border border-gray-200 p-4 rounded-xl mb-5 text-left">
-                    <label for="modal-koval-q" class="block text-xs font-bold text-main-text mb-2">Ваше запитання до архітектора: <span class="text-accent">*</span></label>
-                    <textarea id="modal-koval-q" rows="3" placeholder="Наприклад: Чи можливе перепланування несучої стіни у цегляному будинку?" class="w-full p-3 border border-gray-300 rounded-lg text-xs bg-white focus:outline-none focus:border-accent resize-none"></textarea>
+                <div class="bg-gray-50 dark:bg-black/40 border border-gray-200 dark:border-gray-800 p-4 rounded-xl mb-5 text-left">
+                    <label for="modal-koval-q" class="block text-xs font-bold text-main-text dark:text-white mb-2">Ваше запитання до архітектора: <span class="text-accent">*</span></label>
+                    <textarea id="modal-koval-q" rows="3" placeholder="Наприклад: Чи можливе перепланування несучої стіни у цегляному будинку?" class="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg text-xs bg-white dark:bg-[#161616] text-main-text dark:text-white focus:outline-none focus:border-accent resize-none"></textarea>
                     <p id="koval-q-error" class="hidden text-xs text-red-500 mt-1 flex items-center gap-1">
                         <i class="fas fa-exclamation-circle"></i> Будь ласка, введіть запитання (мінімум 5 символів)
                     </p>
                 </div>
-                <button id="btn-submit-koval-q" type="button" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md flex items-center justify-center gap-2">
+                <button id="btn-submit-koval-q" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md flex items-center justify-center gap-2">
                     <i class="fas fa-paper-plane"></i> Переправити у форму консультації
                 </button>
             `,
@@ -291,19 +640,19 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Олена Даниленко — Галерея інтер'єрів",
             subtitle: "Стилі: Мінімалізм, Джапанді, Сучасний модерн",
             content: `
-                <p class="text-xs text-gray-600 mb-3">Натисніть на фото для перегляду в HD-якості:</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-3">Натисніть на фото для перегляду в HD-якості:</p>
                 <div class="grid grid-cols-3 gap-3 mb-6">
-                    <a href="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80" data-fancybox="danylenko-gallery" data-caption="Сучасна світла вітальня (Олена Даниленко)" class="h-24 rounded-lg overflow-hidden border border-gray-200 group block relative cursor-pointer">
+                    <a href="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80" data-fancybox="danylenko-gallery" data-caption="Сучасна світла вітальня (Олена Даниленко)" class="h-24 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group block relative cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=400&q=80" alt="Інтер'єр 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     </a>
-                    <a href="https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=1200&q=80" data-fancybox="danylenko-gallery" data-caption="Ергономічна кухня Джапанді (Олена Даниленко)" class="h-24 rounded-lg overflow-hidden border border-gray-200 group block relative cursor-pointer">
+                    <a href="https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=1200&q=80" data-fancybox="danylenko-gallery" data-caption="Ергономічна кухня Джапанді (Олена Даниленко)" class="h-24 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group block relative cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=400&q=80" alt="Інтер'єр 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     </a>
-                    <a href="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80" data-fancybox="danylenko-gallery" data-caption="Мінімалістична спальня (Олена Даниленко)" class="h-24 rounded-lg overflow-hidden border border-gray-200 group block relative cursor-pointer">
+                    <a href="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80" data-fancybox="danylenko-gallery" data-caption="Мінімалістична спальня (Олена Даниленко)" class="h-24 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group block relative cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=400&q=80" alt="Інтер'єр 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     </a>
                 </div>
-                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
+                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
                     Замовити дизайн у Олени
                 </button>
             `,
@@ -314,30 +663,30 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Ігор Мельник",
             subtitle: "Сертифікований інженер-конструктор та реставратор (НСАУ)",
             content: `
-                <div class="space-y-3 mb-6 text-xs text-gray-700 text-left">
-                    <div class="flex items-start gap-3 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-3 mb-6 text-xs text-gray-700 dark:text-gray-300 text-left">
+                    <div class="flex items-start gap-3 bg-gray-50 dark:bg-black/40 p-3 rounded-xl border border-gray-200 dark:border-gray-800">
                         <i class="fas fa-award text-accent text-base mt-0.5"></i>
                         <div>
-                            <strong class="block text-main-text font-bold">Офіційна атестація НСАУ</strong>
+                            <strong class="block text-main-text dark:text-white font-bold">Офіційна атестація НСАУ</strong>
                             <span>Державний сертифікат на розрахунок складних несучих конструкцій та реставрацію.</span>
                         </div>
                     </div>
-                    <div class="flex items-start gap-3 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <div class="flex items-start gap-3 bg-gray-50 dark:bg-black/40 p-3 rounded-xl border border-gray-200 dark:border-gray-800">
                         <i class="fas fa-monument text-accent text-base mt-0.5"></i>
                         <div>
-                            <strong class="block text-main-text font-bold">Реставрація пам'яток архітектури</strong>
+                            <strong class="block text-main-text dark:text-white font-bold">Реставрація пам'яток архітектури</strong>
                             <span>Досвід понад 8 років з відновлення історичних фасадів у центральній частині Львова.</span>
                         </div>
                     </div>
-                    <div class="flex items-start gap-3 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <div class="flex items-start gap-3 bg-gray-50 dark:bg-black/40 p-3 rounded-xl border border-gray-200 dark:border-gray-800">
                         <i class="fas fa-building text-accent text-base mt-0.5"></i>
                         <div>
-                            <strong class="block text-main-text font-bold">Моноліт та метал</strong>
+                            <strong class="block text-main-text dark:text-white font-bold">Моноліт та метал</strong>
                             <span>Розрахунок залізобетонних каркасів, фундаментів та посилення несучих елементів.</span>
                         </div>
                     </div>
                 </div>
-                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover hover:scale-[1.01] active:scale-95 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
+                <button id="info-modal-action-btn" type="button" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md">
                     Проконсультуватися з Ігорем
                 </button>
             `,
@@ -351,8 +700,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         infoModalBody.innerHTML = `
             <span class="inline-block text-[10px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded uppercase mb-3 tracking-wider">${item.badge}</span>
-            <h3 class="font-heading text-xl font-bold text-main-text mb-1">${item.title}</h3>
-            <p class="text-xs text-gray-500 mb-4">${item.subtitle}</p>
+            <h3 class="font-heading text-xl font-bold text-main-text dark:text-white mb-1">${item.title}</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">${item.subtitle}</p>
             ${item.content}
         `;
 
@@ -369,9 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeInfoModal();
                 if (subjectSelect && item.subject) subjectSelect.value = item.subject;
                 const consultationSection = document.getElementById('consultation');
-                if (consultationSection) {
-                    consultationSection.scrollIntoView({ behavior: 'smooth' });
-                }
+                if (consultationSection) consultationSection.scrollIntoView({ behavior: 'smooth' });
             });
         }
 
@@ -392,22 +739,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 kovalTextarea.classList.remove('border-red-500');
 
                 closeInfoModal();
-                if (subjectSelect) subjectSelect.value = "Безкоштовна консультація";
+                if (subjectSelect) subjectSelect.value = 'Безкоштовна консультація';
                 if (messageInput) {
                     messageInput.value = `Питання до Олександра Коваля: ${qText}`;
-                    if (charCounter) charCounter.textContent = `${messageInput.value.length} / 500 символів`;
+                    messageInput.dispatchEvent(new Event('input', { bubbles: true }));
                 }
                 const consultationSection = document.getElementById('consultation');
-                if (consultationSection) {
-                    consultationSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-
-            kovalTextarea.addEventListener('input', () => {
-                if (kovalTextarea.value.trim().length >= 5) {
-                    if (kovalErr) kovalErr.classList.add('hidden');
-                    kovalTextarea.classList.remove('border-red-500');
-                }
+                if (consultationSection) consultationSection.scrollIntoView({ behavior: 'smooth' });
             });
         }
     }
@@ -421,10 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelectorAll('[data-modal-trigger]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const key = btn.getAttribute('data-modal-trigger');
-            openInfoModal(key);
-        });
+        btn.addEventListener('click', () => openInfoModal(btn.getAttribute('data-modal-trigger')));
     });
 
     if (infoModalCloseX) infoModalCloseX.addEventListener('click', closeInfoModal);
@@ -432,20 +767,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
-            if (document.querySelector('.fancybox__container')) {
-                return;
-            }
-            if (infoModal && !infoModal.classList.contains('hidden')) {
-                closeInfoModal();
-                return;
-            }
-            if (modal && !modal.classList.contains('hidden')) {
-                closeModal();
-                return;
-            }
+            if (document.querySelector('.fancybox__container')) return;
+            if (infoModal && !infoModal.classList.contains('hidden')) { closeInfoModal(); return; }
+            if (modal && !modal.classList.contains('hidden')) { closeModal(); return; }
         }
     });
 
+    // Слайдер До / Після
     const range = document.getElementById('comparison-range');
     const beforeWrapper = document.getElementById('before-wrapper');
     const beforeImg = document.getElementById('before-img');
@@ -456,12 +784,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (range && beforeWrapper && handle && sliderContainer && beforeImg) {
         function updateSlider() {
-            const value = range.value;
-            beforeWrapper.style.width = `${value}%`;
-            handle.style.left = `${value}%`;
+            const val = range.value;
+            beforeWrapper.style.width = `${val}%`;
+            handle.style.left = `${val}%`;
             beforeImg.style.width = `${sliderContainer.offsetWidth}px`;
-            if (badgeBefore) badgeBefore.style.opacity = value < 5 ? '0' : '1';
-            if (badgeAfter) badgeAfter.style.opacity = value > 95 ? '0' : '1';
+            if (badgeBefore) badgeBefore.style.opacity = val < 5 ? '0' : '1';
+            if (badgeAfter) badgeAfter.style.opacity = val > 95 ? '0' : '1';
         }
         range.addEventListener('input', updateSlider);
         window.addEventListener('resize', updateSlider);
@@ -469,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (typeof Fancybox !== 'undefined') {
-        Fancybox.bind("[data-fancybox]", {
+        Fancybox.bind('[data-fancybox]', {
             Hash: false,
             Thumbs: { autoStart: true }
         });
